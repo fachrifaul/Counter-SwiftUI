@@ -1,5 +1,5 @@
 //
-//  Counter_SwiftUITests.swift
+//  CounterFeatureTest.swift
 //  Counter-SwiftUITests
 //
 //  Created by Fachri Febrian on 17/12/2024.
@@ -11,11 +11,11 @@ import XCTest
 
 @testable import Counter_SwiftUI
 
-final class CounterTest: XCTestCase {
+final class CounterFeatureTest: XCTestCase {
     
     func testIncrementAndDecrement() async {
-        let store = await TestStore(initialState: Counter.State()) {
-            Counter()
+        let store = await TestStore(initialState: CounterFeature.State()) {
+            CounterFeature()
         }
         
         await store.send(.incrementButtonTapped) {
@@ -28,22 +28,25 @@ final class CounterTest: XCTestCase {
     }
     
     func testFetchNumberFact() async {
-        let store = await TestStore(initialState: Counter.State()) {
-            Counter()
+        let store = await TestStore(initialState: CounterFeature.State()) {
+            CounterFeature()
         } withDependencies: {
             $0.factClient = .testValue
         }
         
         // Fetch number fact
-        await store.send(.numberFactButtonTapped)
+        await store.send(.numberFactButtonTapped) {
+            $0.isLoading = true
+        }
         await store.receive(\.numberFactResponse) {
+            $0.isLoading = false
             $0.numberFact = "Number 0 is great!"
         }
     }
     
     func testTImer() async {
-        let store = await TestStore(initialState: Counter.State()) {
-            Counter()
+        let store = await TestStore(initialState: CounterFeature.State()) {
+            CounterFeature()
         }
         
         await store.send(.toggleTimerButtonTapped) {

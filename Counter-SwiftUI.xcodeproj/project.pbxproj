@@ -11,9 +11,11 @@
 		A250046C2D119B7900388925 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250046B2D119B7900388925 /* CounterView.swift */; };
 		A250046E2D119B7A00388925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A250046D2D119B7A00388925 /* Assets.xcassets */; };
 		A25004712D119B7A00388925 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A25004702D119B7A00388925 /* Preview Assets.xcassets */; };
-		A250047B2D119B7A00388925 /* CounterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250047A2D119B7A00388925 /* CounterTest.swift */; };
+		A250047B2D119B7A00388925 /* CounterFeatureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250047A2D119B7A00388925 /* CounterFeatureTest.swift */; };
 		A25004952D119BEF00388925 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A25004942D119BEF00388925 /* ComposableArchitecture */; };
 		A25004982D119C6600388925 /* NumberFactClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25004972D119C6600388925 /* NumberFactClient.swift */; };
+		A2E0646F2D11A4BF005ABB86 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E0646E2D11A4BF005ABB86 /* AppView.swift */; };
+		A2E064712D11A5EA005ABB86 /* AppFeatureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +35,11 @@
 		A250046D2D119B7A00388925 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A25004702D119B7A00388925 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A25004762D119B7A00388925 /* Counter-SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Counter-SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A250047A2D119B7A00388925 /* CounterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterTest.swift; sourceTree = "<group>"; };
+		A250047A2D119B7A00388925 /* CounterFeatureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFeatureTest.swift; sourceTree = "<group>"; };
 		A25004962D119C1E00388925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A25004972D119C6600388925 /* NumberFactClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFactClient.swift; sourceTree = "<group>"; };
+		A2E0646E2D11A4BF005ABB86 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeatureTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +84,9 @@
 			children = (
 				A25004962D119C1E00388925 /* Info.plist */,
 				A25004692D119B7900388925 /* Counter_SwiftUIApp.swift */,
-				A250046B2D119B7900388925 /* CounterView.swift */,
 				A25004972D119C6600388925 /* NumberFactClient.swift */,
 				A250046D2D119B7A00388925 /* Assets.xcassets */,
+				A2E0646D2D11A4AE005ABB86 /* Feature */,
 				A250046F2D119B7A00388925 /* Preview Content */,
 			);
 			path = "Counter-SwiftUI";
@@ -99,9 +103,19 @@
 		A25004792D119B7A00388925 /* Counter-SwiftUITests */ = {
 			isa = PBXGroup;
 			children = (
-				A250047A2D119B7A00388925 /* CounterTest.swift */,
+				A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */,
+				A250047A2D119B7A00388925 /* CounterFeatureTest.swift */,
 			);
 			path = "Counter-SwiftUITests";
+			sourceTree = "<group>";
+		};
+		A2E0646D2D11A4AE005ABB86 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				A2E0646E2D11A4BF005ABB86 /* AppView.swift */,
+				A250046B2D119B7900388925 /* CounterView.swift */,
+			);
+			path = Feature;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2E0646F2D11A4BF005ABB86 /* AppView.swift in Sources */,
 				A25004982D119C6600388925 /* NumberFactClient.swift in Sources */,
 				A250046C2D119B7900388925 /* CounterView.swift in Sources */,
 				A250046A2D119B7900388925 /* Counter_SwiftUIApp.swift in Sources */,
@@ -220,7 +235,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A250047B2D119B7A00388925 /* CounterTest.swift in Sources */,
+				A2E064712D11A5EA005ABB86 /* AppFeatureTest.swift in Sources */,
+				A250047B2D119B7A00388925 /* CounterFeatureTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

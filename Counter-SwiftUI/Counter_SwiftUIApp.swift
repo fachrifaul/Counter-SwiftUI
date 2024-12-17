@@ -12,10 +12,10 @@ import SwiftUI
 struct Counter_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            CounterView(
-              store: Store(initialState: Counter.State()) {
-                  Counter()._printChanges()
-              }
+            AppView(
+                store: Store(initialState: AppFeature.State()) {
+                    AppFeature()
+                }
             )
         }
     }

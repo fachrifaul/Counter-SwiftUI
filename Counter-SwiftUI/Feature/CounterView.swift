@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CounterView.swift
 //  Counter-SwiftUI
 //
 //  Created by Fachri Febrian on 17/12/2024.
@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-struct Counter {
+struct CounterFeature {
     
     @ObservableState
     struct State: Equatable {
@@ -88,7 +88,7 @@ struct Counter {
 }
 
 struct CounterView: View {
-    let store: StoreOf<Counter>
+    let store: StoreOf<CounterFeature>
     
     var body: some View {
         Form {
@@ -119,8 +119,8 @@ struct CounterView: View {
 
 #Preview {
     CounterView(
-        store: Store(initialState: Counter.State()) {
-            Counter()
+        store: Store(initialState: CounterFeature.State()) {
+            CounterFeature()
         }
     )
 }
