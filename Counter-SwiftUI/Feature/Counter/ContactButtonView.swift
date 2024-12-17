@@ -23,10 +23,11 @@ struct ContactButtonView: View {
                 ) {
                     ContactsFeature()
                 }
-            )) {
-                Text("Go to Contacts Screen")
-                    .padding()
-            }.buttonStyle(PlainButtonStyle())
+            )
+        ) {
+            Text("Go to Contacts Screen")
+                .padding()
+        }.buttonStyle(PlainButtonStyle())
     }
 }
 

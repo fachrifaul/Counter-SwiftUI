@@ -24,6 +24,8 @@ struct ContactsFeature {
     @ObservableState
     struct State: Equatable {
         @Presents var destination: Destination.State?
+        var path = StackState<ContactDetailFeature.State>()
+        
         var contacts: IdentifiedArrayOf<Contact> = []
     }
     
@@ -31,6 +33,7 @@ struct ContactsFeature {
         case addButtonTapped
         case deleteButtonTapped(id: Contact.ID)
         case destination(PresentationAction<Destination.Action>)
+        case path(StackAction<ContactDetailFeature.State, ContactDetailFeature.Action>)
         enum Alert: Equatable {
             case confirmDeletion(id: Contact.ID)
         }
@@ -66,23 +69,36 @@ struct ContactsFeature {
             case let .deleteButtonTapped(id: id):
                 state.destination = .alert(.deleteConfirmation(id: id))
                 return .none
+                
+            case let .path(.element(id: id, action: .delegate(.confirmDeletion))):
+              guard let detailState = state.path[id: id]
+              else { return .none }
+              state.contacts.remove(id: detailState.contact.id)
+              return .none
+                
+            case .path:
+                return .none
+                
             }
         }
         .ifLet(\.$destination, action: \.destination)
+        .forEach(\.path, action: \.path) {
+            ContactDetailFeature()
+        }
     }
     
 }
 
 extension AlertState where Action == ContactsFeature.Action.Alert {
-  static func deleteConfirmation(id: UUID) -> Self {
-    Self {
-      TextState("Are you sure?")
-    } actions: {
-      ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
-        TextState("Delete")
-      }
+    static func deleteConfirmation(id: UUID) -> Self {
+        Self {
+            TextState("Are you sure?")
+        } actions: {
+            ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
+                TextState("Delete")
+            }
+        }
     }
-  }
 }
 
 
@@ -95,16 +111,7 @@ struct ContactsView: View {
         NavigationView {
             List {
                 ForEach(store.contacts) { contact in
-                    HStack {
-                        Text(contact.name)
-                        Spacer()
-                        Button {
-                            store.send(.deleteButtonTapped(id: contact.id))
-                        } label: {
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                        }
-                    }
+                    contactRow(contact: contact)
                 }
             }
             .navigationTitle("Contacts")
@@ -118,6 +125,9 @@ struct ContactsView: View {
                 }
             }
         }
+//        } destination: { store in
+//            ContactDetailView(store: store)
+//        }
         .sheet(
             item: $store.scope(state: \.destination?.addContact, action: \.destination.addContact),
             content: { addContactStore in
@@ -127,6 +137,32 @@ struct ContactsView: View {
             }
         )
         .alert2($store.scope(state: \.destination?.alert, action: \.destination.alert))
+    }
+    
+    private func contactRow(contact: Contact) -> some View {
+        NavigationLink(
+            destination: ContactDetailView(
+                store: Store(
+                    initialState: ContactDetailFeature.State(contact: contact)
+                ) {
+                    ContactDetailFeature()
+                }
+            ).onAppear {
+//                store.
+                print("#HAHAHA")
+            }
+        ) {
+            HStack {
+                Text(contact.name)
+                Spacer()
+                Button {
+                    store.send(.deleteButtonTapped(id: contact.id))
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        }.buttonStyle(.borderless)
     }
 }
 
