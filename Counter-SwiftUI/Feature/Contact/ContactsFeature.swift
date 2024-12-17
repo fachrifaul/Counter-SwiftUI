@@ -15,19 +15,22 @@ struct Contact: Equatable, Identifiable {
 
 @Reducer
 struct ContactsFeature {
+    @Reducer(state: .equatable)
+    enum Destination {
+        case addContact(AddContactFeature)
+        case alert(AlertState<ContactsFeature.Action.Alert>)
+    }
     
     @ObservableState
     struct State: Equatable {
-        @Presents var addContact: AddContactFeature.State?
-        @Presents var alert: AlertState<Action.Alert>?
+        @Presents var destination: Destination.State?
         var contacts: IdentifiedArrayOf<Contact> = []
     }
     
     enum Action {
         case addButtonTapped
-        case addContact(PresentationAction<AddContactFeature.Action>)
         case deleteButtonTapped(id: Contact.ID)
-        case alert(PresentationAction<Alert>)
+        case destination(PresentationAction<Destination.Action>)
         enum Alert: Equatable {
             case confirmDeletion(id: Contact.ID)
         }
@@ -37,47 +40,49 @@ struct ContactsFeature {
         Reduce { state, action in
             switch action {
             case .addButtonTapped:
-              state.addContact = AddContactFeature.State(
-                contact: Contact(id: UUID(), name: "")
-              )
-              return .none
-              
-            case let .addContact(.presented(.delegate(.saveContact(contact)))):
-              state.contacts.append(contact)
-              return .none
-              
-            case .addContact:
-              return .none
-              
-            case let .alert(.presented(.confirmDeletion(id: id))):
-              state.contacts.remove(id: id)
-              return .none
-              
-            case .alert:
-              return .none
-              
+                state.destination = .addContact(
+                    AddContactFeature.State(
+                        contact: Contact(id: UUID(), name: "")
+                    )
+                )
+                return .none
+                
+                
+            case let .destination(.presented(.addContact(.delegate(.saveContact(contact))))):
+                
+                state.contacts.append(contact)
+                return .none
+                
+            case let .destination(.presented(.alert(.confirmDeletion(id: id)))):
+                
+                state.contacts.remove(id: id)
+                return .none
+                
+            case .destination:
+                return .none
+                
             case let .deleteButtonTapped(id: id):
-              state.alert = AlertState {
-                TextState("Are you sure?")
-              } actions: {
-                ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
-                  TextState("Delete")
-                }
-              }
-              return .none
+                state.destination = .alert(
+                    AlertState {
+                        TextState("Are you sure?")
+                    } actions: {
+                        ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
+                            TextState("Delete")
+                        }
+                    }
+                )
+                return .none
             }
-          }
-          .ifLet(\.$addContact, action: \.addContact) {
-            AddContactFeature()
-          }
-          .ifLet(\.$alert, action: \.alert)
+        }
+        .ifLet(\.$destination, action: \.destination)
     }
+    
 }
 
 
 struct ContactsView: View {
     @State private var showAlert = false
-
+    
     @Perception.Bindable var store: StoreOf<ContactsFeature>
     
     var body: some View {
@@ -85,14 +90,14 @@ struct ContactsView: View {
             List {
                 ForEach(store.contacts) { contact in
                     HStack {
-                      Text(contact.name)
-                      Spacer()
-                      Button {
-                        store.send(.deleteButtonTapped(id: contact.id))
-                      } label: {
-                        Image(systemName: "trash")
-                          .foregroundColor(.red)
-                      }
+                        Text(contact.name)
+                        Spacer()
+                        Button {
+                            store.send(.deleteButtonTapped(id: contact.id))
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }
@@ -108,14 +113,14 @@ struct ContactsView: View {
             }
         }
         .sheet(
-            store: store.scope(state: \.$addContact, action: \.addContact), 
+            item: $store.scope(state: \.destination?.addContact, action: \.destination.addContact),
             content: { addContactStore in
                 NavigationView {
                     AddContactView(store: addContactStore)
                 }
             }
         )
-        .alert2($store.scope(state: \.alert, action: \.alert))
+        .alert2($store.scope(state: \.destination?.alert, action: \.destination.alert))
     }
 }
 
@@ -128,7 +133,7 @@ struct ContactsView: View {
                     Contact(id: UUID(), name: "Blob Jr"),
                     Contact(id: UUID(), name: "Blob Sr"),
                 ]
-            ), 
+            ),
             reducer: {
                 ContactsFeature()
             }
