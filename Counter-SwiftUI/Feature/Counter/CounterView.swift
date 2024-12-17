@@ -64,22 +64,22 @@ struct CounterFeature {
                 return .none
                 
             case .timerTick:
-               state.count += 1
-               state.numberFact = nil
-               return .none
+                state.count += 1
+                state.numberFact = nil
+                return .none
                 
             case .toggleTimerButtonTapped:
                 state.isTimerRunning.toggle()
                 if state.isTimerRunning {
-                  return .run { send in
-                    while true {
-                      try await Task.sleep(nanoseconds: 100_000_000)
-                      await send(.timerTick)
+                    return .run { send in
+                        while true {
+                            try await Task.sleep(nanoseconds: 100_000_000)
+                            await send(.timerTick)
+                        }
                     }
-                  }
-                  .cancellable(id: CancelID.timer)
+                    .cancellable(id: CancelID.timer)
                 } else {
-                  return .cancel(id: CancelID.timer)
+                    return .cancel(id: CancelID.timer)
                 }
             }
         }
@@ -91,27 +91,33 @@ struct CounterView: View {
     let store: StoreOf<CounterFeature>
     
     var body: some View {
-        Form {
-            Section {
-                Text("\(store.count)")
-                Button("Decrement") { store.send(.decrementButtonTapped) }
-                Button("Increment") { store.send(.incrementButtonTapped) }
-                Button("Toggle Timer") { store.send(.toggleTimerButtonTapped) }
-            }
-            
-            Section {
-                Button("Number fact") { store.send(.numberFactButtonTapped) }
-            }
-            
-            if store.isLoading {
-                ProgressView()
-                    .padding()
-                    .multilineTextAlignment(.center)
-            } else if let fact = store.numberFact {
-                Text(fact)
-                    .font(.largeTitle)
-                    .multilineTextAlignment(.center)
-                    .padding()
+        NavigationView {
+            Form {
+                Section {
+                    ContactButtonView()
+                }
+                
+                Section {
+                    Text("\(store.count)")
+                    Button("Decrement") { store.send(.decrementButtonTapped) }
+                    Button("Increment") { store.send(.incrementButtonTapped) }
+                    Button("Toggle Timer") { store.send(.toggleTimerButtonTapped) }
+                }
+                
+                Section {
+                    Button("Number fact") { store.send(.numberFactButtonTapped) }
+                }
+                
+                if store.isLoading {
+                    ProgressView()
+                        .padding()
+                        .multilineTextAlignment(.center)
+                } else if let fact = store.numberFact {
+                    Text(fact)
+                        .font(.largeTitle)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
             }
         }
     }

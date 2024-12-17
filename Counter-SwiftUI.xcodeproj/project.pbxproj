@@ -16,6 +16,9 @@
 		A25004982D119C6600388925 /* NumberFactClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25004972D119C6600388925 /* NumberFactClient.swift */; };
 		A2E0646F2D11A4BF005ABB86 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E0646E2D11A4BF005ABB86 /* AppView.swift */; };
 		A2E064712D11A5EA005ABB86 /* AppFeatureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */; };
+		A2E064732D11AA99005ABB86 /* ContactsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064722D11AA99005ABB86 /* ContactsFeature.swift */; };
+		A2E064752D11AB61005ABB86 /* AddContactFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064742D11AB61005ABB86 /* AddContactFeature.swift */; };
+		A2E064782D11C10F005ABB86 /* ContactButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064772D11C10F005ABB86 /* ContactButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		A25004972D119C6600388925 /* NumberFactClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFactClient.swift; sourceTree = "<group>"; };
 		A2E0646E2D11A4BF005ABB86 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeatureTest.swift; sourceTree = "<group>"; };
+		A2E064722D11AA99005ABB86 /* ContactsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsFeature.swift; sourceTree = "<group>"; };
+		A2E064742D11AB61005ABB86 /* AddContactFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactFeature.swift; sourceTree = "<group>"; };
+		A2E064772D11C10F005ABB86 /* ContactButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,10 +118,29 @@
 		A2E0646D2D11A4AE005ABB86 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				A2E064792D11C13D005ABB86 /* Contact */,
+				A2E064762D11C0FF005ABB86 /* Counter */,
 				A2E0646E2D11A4BF005ABB86 /* AppView.swift */,
-				A250046B2D119B7900388925 /* CounterView.swift */,
 			);
 			path = Feature;
+			sourceTree = "<group>";
+		};
+		A2E064762D11C0FF005ABB86 /* Counter */ = {
+			isa = PBXGroup;
+			children = (
+				A250046B2D119B7900388925 /* CounterView.swift */,
+				A2E064772D11C10F005ABB86 /* ContactButtonView.swift */,
+			);
+			path = Counter;
+			sourceTree = "<group>";
+		};
+		A2E064792D11C13D005ABB86 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				A2E064722D11AA99005ABB86 /* ContactsFeature.swift */,
+				A2E064742D11AB61005ABB86 /* AddContactFeature.swift */,
+			);
+			path = Contact;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,9 +250,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2E0646F2D11A4BF005ABB86 /* AppView.swift in Sources */,
+				A2E064752D11AB61005ABB86 /* AddContactFeature.swift in Sources */,
 				A25004982D119C6600388925 /* NumberFactClient.swift in Sources */,
 				A250046C2D119B7900388925 /* CounterView.swift in Sources */,
 				A250046A2D119B7900388925 /* Counter_SwiftUIApp.swift in Sources */,
+				A2E064732D11AA99005ABB86 /* ContactsFeature.swift in Sources */,
+				A2E064782D11C10F005ABB86 /* ContactButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
