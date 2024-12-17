@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  DemoIncrement
+//  Counter-SwiftUI
 //
 //  Created by Fachri Febrian on 17/12/2024.
 //
@@ -84,12 +84,10 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(
-            store: Store(initialState: Counter.State()) {
-                Counter()
-            }
-        )
-    }
+#Preview {
+    ContentView(
+        store: Store(initialState: Counter.State()) {
+            Counter()
+        }
+    )
 }

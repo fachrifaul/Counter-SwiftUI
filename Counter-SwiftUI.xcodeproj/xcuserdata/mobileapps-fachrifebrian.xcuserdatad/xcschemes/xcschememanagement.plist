@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>DemoIncrement.xcscheme_^#shared#^_</key>
+		<key>Counter-SwiftUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,17 +12,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>A2352EEC2D1157AD00529E5A</key>
+		<key>A25004652D119B7900388925</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2352EFC2D1157AF00529E5A</key>
+		<key>A25004752D119B7A00388925</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2352F062D1157AF00529E5A</key>
+		<key>A250047F2D119B7A00388925</key>
 		<dict>
 			<key>primary</key>
 			<true/>

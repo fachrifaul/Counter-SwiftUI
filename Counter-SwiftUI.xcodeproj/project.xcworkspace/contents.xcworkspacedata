@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/fachrifebrian/Documents/DemoIncrement/Counter-SwiftUI.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

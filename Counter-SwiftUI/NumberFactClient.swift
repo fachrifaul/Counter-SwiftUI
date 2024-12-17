@@ -1,13 +1,12 @@
 //
 //  NumberFactClient.swift
-//  DemoIncrement
+//  Counter-SwiftUI
 //
 //  Created by Fachri Febrian on 17/12/2024.
 //
+
 import ComposableArchitecture
 import Foundation
-
-
 
 extension DependencyValues {
     var factClient: FactClient {

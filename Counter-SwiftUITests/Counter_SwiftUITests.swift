@@ -1,14 +1,15 @@
 //
-//  DemoIncrementTests.swift
-//  DemoIncrementTests
+//  Counter_SwiftUITests.swift
+//  Counter-SwiftUITests
 //
 //  Created by Fachri Febrian on 17/12/2024.
 //
+
 import ComposableArchitecture
 import Dependencies
 import XCTest
 
-@testable import DemoIncrement
+@testable import Counter_SwiftUI
 
 final class DemoIncrementTests: XCTestCase {
     
@@ -41,3 +42,4 @@ final class DemoIncrementTests: XCTestCase {
     }
     
 }
+
