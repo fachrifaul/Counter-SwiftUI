@@ -15,53 +15,85 @@ struct Contact: Equatable, Identifiable {
 
 @Reducer
 struct ContactsFeature {
+    
     @ObservableState
     struct State: Equatable {
         @Presents var addContact: AddContactFeature.State?
+        @Presents var alert: AlertState<Action.Alert>?
         var contacts: IdentifiedArrayOf<Contact> = []
     }
+    
     enum Action {
         case addButtonTapped
         case addContact(PresentationAction<AddContactFeature.Action>)
+        case deleteButtonTapped(id: Contact.ID)
+        case alert(PresentationAction<Alert>)
+        enum Alert: Equatable {
+            case confirmDeletion(id: Contact.ID)
+        }
     }
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .addButtonTapped:
-                state.addContact = AddContactFeature.State(
-                    contact: Contact(id: UUID(), name: "")
-                )
-                return .none
-                
-                // case .addContact(.presented(.delegate(.cancel))):
-                //   state.addContact = nil
-                //   return .none
-                
+              state.addContact = AddContactFeature.State(
+                contact: Contact(id: UUID(), name: "")
+              )
+              return .none
+              
             case let .addContact(.presented(.delegate(.saveContact(contact)))):
-                state.contacts.append(contact)
-                // state.addContact = nil
-                return .none
-                
+              state.contacts.append(contact)
+              return .none
+              
             case .addContact:
-                return .none
+              return .none
+              
+            case let .alert(.presented(.confirmDeletion(id: id))):
+              state.contacts.remove(id: id)
+              return .none
+              
+            case .alert:
+              return .none
+              
+            case let .deleteButtonTapped(id: id):
+              state.alert = AlertState {
+                TextState("Are you sure?")
+              } actions: {
+                ButtonState(role: .destructive, action: .confirmDeletion(id: id)) {
+                  TextState("Delete")
+                }
+              }
+              return .none
             }
-        }
-        .ifLet(\.$addContact, action: \.addContact) {
+          }
+          .ifLet(\.$addContact, action: \.addContact) {
             AddContactFeature()
-        }
+          }
+          .ifLet(\.$alert, action: \.alert)
     }
 }
 
 
 struct ContactsView: View {
+    @State private var showAlert = false
+
     @Perception.Bindable var store: StoreOf<ContactsFeature>
     
     var body: some View {
-        
         NavigationView {
             List {
                 ForEach(store.contacts) { contact in
-                    Text(contact.name)
+                    HStack {
+                      Text(contact.name)
+                      Spacer()
+                      Button {
+                        store.send(.deleteButtonTapped(id: contact.id))
+                      } label: {
+                        Image(systemName: "trash")
+                          .foregroundColor(.red)
+                      }
+                    }
                 }
             }
             .navigationTitle("Contacts")
@@ -76,12 +108,14 @@ struct ContactsView: View {
             }
         }
         .sheet(
-            store: store.scope(state: \.$addContact, action: \.addContact)
-        ) { addContactStore in
-            NavigationView {
-                AddContactView(store: addContactStore)
+            store: store.scope(state: \.$addContact, action: \.addContact), 
+            content: { addContactStore in
+                NavigationView {
+                    AddContactView(store: addContactStore)
+                }
             }
-        }
+        )
+        .alert2($store.scope(state: \.alert, action: \.alert))
     }
 }
 
@@ -94,9 +128,10 @@ struct ContactsView: View {
                     Contact(id: UUID(), name: "Blob Jr"),
                     Contact(id: UUID(), name: "Blob Sr"),
                 ]
-            )
-        ) {
-            ContactsFeature()
-        }
+            ), 
+            reducer: {
+                ContactsFeature()
+            }
+        )
     )
 }
