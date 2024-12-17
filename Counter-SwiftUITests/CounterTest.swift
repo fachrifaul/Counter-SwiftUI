@@ -11,7 +11,7 @@ import XCTest
 
 @testable import Counter_SwiftUI
 
-final class DemoIncrementTests: XCTestCase {
+final class CounterTests: XCTestCase {
     
     func testIncrementAndDecrement() async {
         let store = await TestStore(initialState: Counter.State()) {
