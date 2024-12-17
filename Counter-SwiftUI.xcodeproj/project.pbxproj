@@ -20,6 +20,7 @@
 		A2E064752D11AB61005ABB86 /* AddContactFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064742D11AB61005ABB86 /* AddContactFeature.swift */; };
 		A2E064782D11C10F005ABB86 /* ContactButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E064772D11C10F005ABB86 /* ContactButtonView.swift */; };
 		A2E0647C2D11C7EB005ABB86 /* Alert+Observation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E0647B2D11C7EB005ABB86 /* Alert+Observation.swift */; };
+		A2E064802D11D29B005ABB86 /* ContactsFeatureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E0647F2D11D29B005ABB86 /* ContactsFeatureTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		A2E064742D11AB61005ABB86 /* AddContactFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactFeature.swift; sourceTree = "<group>"; };
 		A2E064772D11C10F005ABB86 /* ContactButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactButtonView.swift; sourceTree = "<group>"; };
 		A2E0647B2D11C7EB005ABB86 /* Alert+Observation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Observation.swift"; sourceTree = "<group>"; };
+		A2E0647F2D11D29B005ABB86 /* ContactsFeatureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsFeatureTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 			children = (
 				A2E064702D11A5EA005ABB86 /* AppFeatureTest.swift */,
 				A250047A2D119B7A00388925 /* CounterFeatureTest.swift */,
+				A2E0647F2D11D29B005ABB86 /* ContactsFeatureTest.swift */,
 			);
 			path = "Counter-SwiftUITests";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2E064802D11D29B005ABB86 /* ContactsFeatureTest.swift in Sources */,
 				A2E064712D11A5EA005ABB86 /* AppFeatureTest.swift in Sources */,
 				A250047B2D119B7A00388925 /* CounterFeatureTest.swift in Sources */,
 			);
