@@ -11,7 +11,7 @@
 		A250046C2D119B7900388925 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250046B2D119B7900388925 /* CounterView.swift */; };
 		A250046E2D119B7A00388925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A250046D2D119B7A00388925 /* Assets.xcassets */; };
 		A25004712D119B7A00388925 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A25004702D119B7A00388925 /* Preview Assets.xcassets */; };
-		A250047B2D119B7A00388925 /* Counter_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250047A2D119B7A00388925 /* Counter_SwiftUITests.swift */; };
+		A250047B2D119B7A00388925 /* CounterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250047A2D119B7A00388925 /* CounterTest.swift */; };
 		A25004952D119BEF00388925 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A25004942D119BEF00388925 /* ComposableArchitecture */; };
 		A25004982D119C6600388925 /* NumberFactClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A25004972D119C6600388925 /* NumberFactClient.swift */; };
 /* End PBXBuildFile section */
@@ -33,7 +33,7 @@
 		A250046D2D119B7A00388925 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A25004702D119B7A00388925 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A25004762D119B7A00388925 /* Counter-SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Counter-SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A250047A2D119B7A00388925 /* Counter_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter_SwiftUITests.swift; sourceTree = "<group>"; };
+		A250047A2D119B7A00388925 /* CounterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterTest.swift; sourceTree = "<group>"; };
 		A25004962D119C1E00388925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A25004972D119C6600388925 /* NumberFactClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFactClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,9 +81,9 @@
 				A25004962D119C1E00388925 /* Info.plist */,
 				A25004692D119B7900388925 /* Counter_SwiftUIApp.swift */,
 				A250046B2D119B7900388925 /* CounterView.swift */,
+				A25004972D119C6600388925 /* NumberFactClient.swift */,
 				A250046D2D119B7A00388925 /* Assets.xcassets */,
 				A250046F2D119B7A00388925 /* Preview Content */,
-				A25004972D119C6600388925 /* NumberFactClient.swift */,
 			);
 			path = "Counter-SwiftUI";
 			sourceTree = "<group>";
@@ -99,7 +99,7 @@
 		A25004792D119B7A00388925 /* Counter-SwiftUITests */ = {
 			isa = PBXGroup;
 			children = (
-				A250047A2D119B7A00388925 /* Counter_SwiftUITests.swift */,
+				A250047A2D119B7A00388925 /* CounterTest.swift */,
 			);
 			path = "Counter-SwiftUITests";
 			sourceTree = "<group>";
@@ -220,7 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A250047B2D119B7A00388925 /* Counter_SwiftUITests.swift in Sources */,
+				A250047B2D119B7A00388925 /* CounterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

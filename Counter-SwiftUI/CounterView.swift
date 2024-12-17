@@ -8,11 +8,6 @@
 import ComposableArchitecture
 import SwiftUI
 
-@DependencyClient
-struct FactClient {
-    var fetch: (Int) async throws -> String
-}
-
 @Reducer
 struct Counter {
     
@@ -20,6 +15,8 @@ struct Counter {
     struct State: Equatable {
         var count = 0
         var numberFact: String?
+        var isLoading = false
+        var isTimerRunning = false
     }
     
     enum Action {
@@ -27,24 +24,32 @@ struct Counter {
         case incrementButtonTapped
         case numberFactButtonTapped
         case numberFactResponse(String)
+        case timerTick
+        case toggleTimerButtonTapped
     }
     
     @Dependency(\.factClient) var factClient
+    
+    enum CancelID { case timer }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .decrementButtonTapped:
                 state.count -= 1
+                state.numberFact = nil
                 return .none
                 
                 
             case .incrementButtonTapped:
                 state.count += 1
+                state.numberFact = nil
                 return .none
                 
                 
             case .numberFactButtonTapped:
+                state.isLoading = true
+                
                 return .run { [count = state.count] send in
                     let response = try await self.factClient.fetch(count)
                     await send(
@@ -54,15 +59,35 @@ struct Counter {
                 
                 
             case let .numberFactResponse(fact):
+                state.isLoading = false
                 state.numberFact = fact
                 return .none
+                
+            case .timerTick:
+               state.count += 1
+               state.numberFact = nil
+               return .none
+                
+            case .toggleTimerButtonTapped:
+                state.isTimerRunning.toggle()
+                if state.isTimerRunning {
+                  return .run { send in
+                    while true {
+                      try await Task.sleep(nanoseconds: 100_000_000)
+                      await send(.timerTick)
+                    }
+                  }
+                  .cancellable(id: CancelID.timer)
+                } else {
+                  return .cancel(id: CancelID.timer)
+                }
             }
         }
     }
     
 }
 
-struct ContentView: View {
+struct CounterView: View {
     let store: StoreOf<Counter>
     
     var body: some View {
@@ -71,21 +96,29 @@ struct ContentView: View {
                 Text("\(store.count)")
                 Button("Decrement") { store.send(.decrementButtonTapped) }
                 Button("Increment") { store.send(.incrementButtonTapped) }
+                Button("Toggle Timer") { store.send(.toggleTimerButtonTapped) }
             }
             
             Section {
                 Button("Number fact") { store.send(.numberFactButtonTapped) }
             }
             
-            if let fact = store.numberFact {
+            if store.isLoading {
+                ProgressView()
+                    .padding()
+                    .multilineTextAlignment(.center)
+            } else if let fact = store.numberFact {
                 Text(fact)
+                    .font(.largeTitle)
+                    .multilineTextAlignment(.center)
+                    .padding()
             }
         }
     }
 }
 
 #Preview {
-    ContentView(
+    CounterView(
         store: Store(initialState: Counter.State()) {
             Counter()
         }

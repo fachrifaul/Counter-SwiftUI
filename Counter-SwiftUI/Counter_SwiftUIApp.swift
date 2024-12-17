@@ -12,9 +12,9 @@ import SwiftUI
 struct Counter_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(
+            CounterView(
               store: Store(initialState: Counter.State()) {
-                Counter()
+                  Counter()._printChanges()
               }
             )
         }

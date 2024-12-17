@@ -8,6 +8,11 @@
 import ComposableArchitecture
 import Foundation
 
+@DependencyClient
+struct FactClient {
+    var fetch: (Int) async throws -> String
+}
+
 extension DependencyValues {
     var factClient: FactClient {
         get { self[FactClient.self] }
