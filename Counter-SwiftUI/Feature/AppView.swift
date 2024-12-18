@@ -8,7 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct AppFeature: Reducer {
+@Reducer
+struct AppFeature {
     
     @Reducer(state: .equatable)
     enum Path {
@@ -50,7 +51,7 @@ struct AppFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$path, action: /Action.path) { }
+        .ifLet(\.$path, action: \.path) { }
     }
 }
 
@@ -68,8 +69,8 @@ struct AppView: View {
         NavigationView {
             List {
                 NavigationLinkStore(
-                    store.scope(state: \.$path, action: AppFeature.Action.path),
-                    state: /AppFeature.Path.State.devices,
+                    store.scope(state: \.$path, action: \.path),
+                    state: \.devices,
                     action: AppFeature.Path.Action.devices,
                     onTap: {
                         viewStore.send(.showDevices)
@@ -80,8 +81,8 @@ struct AppView: View {
                     }
                 )
                 NavigationLinkStore(
-                    store.scope(state: \.$path, action: AppFeature.Action.path),
-                    state: /AppFeature.Path.State.counter,
+                    store.scope(state: \.$path, action: \.path),
+                    state: \.counter,
                     action: AppFeature.Path.Action.counter,
                     onTap: {
                         viewStore.send(.showCounter)
@@ -92,12 +93,12 @@ struct AppView: View {
                     }
                 )
                 NavigationLinkStore(
-                    store.scope(state: \.$path, action: AppFeature.Action.path),
-                    state: /AppFeature.Path.State.contact,
+                    store.scope(state: \.$path, action: \.path),
+                    state: \.contact,
                     action: AppFeature.Path.Action.contact,
                     onTap: {
                         viewStore.send(.showContact)
-                    },x
+                    },
                     destination: ContactsView.init(store:),
                     label: {
                         Label("Contact", systemImage: "person")

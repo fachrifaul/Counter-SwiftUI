@@ -113,7 +113,7 @@ struct CounterView: View {
                     .multilineTextAlignment(.center)
                     .padding()
             }
-        }.navigationTitle(Text("Contact"))
+        }
     }
 }
 

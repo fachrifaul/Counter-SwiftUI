@@ -71,10 +71,10 @@ struct ContactsFeature {
                 return .none
                 
             case let .path(.element(id: id, action: .delegate(.confirmDeletion))):
-              guard let detailState = state.path[id: id]
-              else { return .none }
-              state.contacts.remove(id: detailState.contact.id)
-              return .none
+                guard let detailState = state.path[id: id]
+                else { return .none }
+                state.contacts.remove(id: detailState.contact.id)
+                return .none
                 
             case .path:
                 return .none
@@ -108,26 +108,24 @@ struct ContactsView: View {
     @Perception.Bindable var store: StoreOf<ContactsFeature>
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(store.contacts) { contact in
-                    contactRow(contact: contact)
-                }
+        List {
+            ForEach(store.contacts) { contact in
+                contactRow(contact: contact)
             }
-            .navigationTitle("Contacts")
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        store.send(.addButtonTapped)
-                    } label: {
-                        Image(systemName: "plus")
-                    }
+        }
+        .navigationTitle("Contacts")
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    store.send(.addButtonTapped)
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }
-//        } destination: { store in
-//            ContactDetailView(store: store)
-//        }
+        //        } destination: { store in
+        //            ContactDetailView(store: store)
+        //        }
         .sheet(
             item: $store.scope(state: \.destination?.addContact, action: \.destination.addContact),
             content: { addContactStore in
@@ -148,7 +146,7 @@ struct ContactsView: View {
                     ContactDetailFeature()
                 }
             ).onAppear {
-//                store.
+                //                store.
                 print("#HAHAHA")
             }
         ) {
