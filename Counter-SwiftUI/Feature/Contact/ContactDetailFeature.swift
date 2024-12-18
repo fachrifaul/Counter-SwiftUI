@@ -41,6 +41,7 @@ struct ContactDetailFeature {
             await self.dismiss()
           }
         case .alert:
+            print("ALERT")
           return .none
         case .delegate:
           return .none

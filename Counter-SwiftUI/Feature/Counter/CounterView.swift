@@ -91,35 +91,29 @@ struct CounterView: View {
     let store: StoreOf<CounterFeature>
     
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    ContactButtonView()
-                }
-                
-                Section {
-                    Text("\(store.count)")
-                    Button("Decrement") { store.send(.decrementButtonTapped) }
-                    Button("Increment") { store.send(.incrementButtonTapped) }
-                    Button("Toggle Timer") { store.send(.toggleTimerButtonTapped) }
-                }
-                
-                Section {
-                    Button("Number fact") { store.send(.numberFactButtonTapped) }
-                }
-                
-                if store.isLoading {
-                    ProgressView()
-                        .padding()
-                        .multilineTextAlignment(.center)
-                } else if let fact = store.numberFact {
-                    Text(fact)
-                        .font(.largeTitle)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                }
+        Form {
+            Section {
+                Text("\(store.count)")
+                Button("Decrement") { store.send(.decrementButtonTapped) }
+                Button("Increment") { store.send(.incrementButtonTapped) }
+                Button("Toggle Timer") { store.send(.toggleTimerButtonTapped) }
             }
-        }
+            
+            Section {
+                Button("Number fact") { store.send(.numberFactButtonTapped) }
+            }
+            
+            if store.isLoading {
+                ProgressView()
+                    .padding()
+                    .multilineTextAlignment(.center)
+            } else if let fact = store.numberFact {
+                Text(fact)
+                    .font(.largeTitle)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
+        }.navigationTitle(Text("Contact"))
     }
 }
 

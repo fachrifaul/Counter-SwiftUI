@@ -1,5 +1,5 @@
 //
-//  AppFeatureTest.swift
+//  CounterAppFeatureTest.swift
 //  Counter-SwiftUITests
 //
 //  Created by Fachri Febrian on 17/12/2024.
@@ -9,11 +9,11 @@ import ComposableArchitecture
 import XCTest
 @testable import Counter_SwiftUI
 
-final class AppFeatureTest: XCTestCase {
+final class CounterAppFeatureTest: XCTestCase {
 
     func testIncrementInFirstTab() async {
-        let store = await TestStore(initialState: AppFeature.State()) {
-            AppFeature()
+        let store = await TestStore(initialState: CounterAppFeature.State()) {
+            CounterAppFeature()
         }
         
         await store.send(\.tab1.incrementButtonTapped) {

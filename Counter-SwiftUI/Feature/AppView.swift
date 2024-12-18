@@ -2,68 +2,119 @@
 //  AppView.swift
 //  Counter-SwiftUI
 //
-//  Created by Fachri Febrian on 17/12/2024.
+//  Created by Fachri Febrian on 18/12/2024.
 //
 
 import ComposableArchitecture
 import SwiftUI
 
-@Reducer
-struct AppFeature {
+struct AppFeature: Reducer {
+    
+    @Reducer(state: .equatable)
+    enum Path {
+        case devices(DevicesFeature)
+        case counter(CounterAppFeature)
+        case contact(ContactsFeature)
+    }
 
     struct State: Equatable {
-        var tab1 = CounterFeature.State()
-        var tab2 = CounterFeature.State()
+        @PresentationState var path: Path.State?
     }
-    
+
     enum Action {
-        case tab1(CounterFeature.Action)
-        case tab2(CounterFeature.Action)
+        case path(PresentationAction<Path.Action>)
+        case showDevices
+        case showCounter
+        case showContact
     }
-    
+
     var body: some ReducerOf<Self> {
-        Scope(
-            state: \.tab1,
-            action: \.tab1, child: {
-                return CounterFeature()
-            }
-        )
-        Scope(
-            state: \.tab2,
-            action: \.tab2,
-            child: {
-                return CounterFeature()
-            }
-        )
         Reduce { state, action in
-            return .none
+            switch action {
+            case .path:
+                return .none
+            case .showDevices:
+                state.path = .devices(.init())
+                return .none
+            case .showCounter:
+                state.path = .counter(.init())
+                return .none
+            case .showContact:
+                state.path = .contact(ContactsFeature.State(
+                    contacts: [
+                        Contact(id: UUID(), name: "Blob"),
+                        Contact(id: UUID(), name: "Blob Jr"),
+                        Contact(id: UUID(), name: "Blob Sr"),
+                    ]
+                ))
+                return .none
+            }
         }
+        .ifLet(\.$path, action: /Action.path) { }
     }
 }
-
 
 struct AppView: View {
-    let store: StoreOf<AppFeature>
-    
+    var store: StoreOf<AppFeature>
+
+    @ObservedObject var viewStore: ViewStoreOf<AppFeature>
+
+    init(store: StoreOf<AppFeature>) {
+        self.store = store
+        viewStore = ViewStore(store) { $0 }
+    }
+
     var body: some View {
-        TabView {
-            CounterView(store: store.scope(state: \.tab1, action: \.tab1))
-                .tabItem {
-                    Text("Counter 1")
-                }
-            CounterView(store: store.scope(state: \.tab2, action: \.tab2))
-                .tabItem {
-                    Text("Counter 2")
-                }
+        NavigationView {
+            List {
+                NavigationLinkStore(
+                    store.scope(state: \.$path, action: AppFeature.Action.path),
+                    state: /AppFeature.Path.State.devices,
+                    action: AppFeature.Path.Action.devices,
+                    onTap: {
+                        viewStore.send(.showDevices)
+                    },
+                    destination: DevicesView.init(store:),
+                    label: {
+                        Label("Devices", systemImage: "iphone")
+                    }
+                )
+                NavigationLinkStore(
+                    store.scope(state: \.$path, action: AppFeature.Action.path),
+                    state: /AppFeature.Path.State.counter,
+                    action: AppFeature.Path.Action.counter,
+                    onTap: {
+                        viewStore.send(.showCounter)
+                    },
+                    destination: AppCounterView.init(store:),
+                    label: {
+                        Label("Counter", systemImage: "timer")
+                    }
+                )
+                NavigationLinkStore(
+                    store.scope(state: \.$path, action: AppFeature.Action.path),
+                    state: /AppFeature.Path.State.contact,
+                    action: AppFeature.Path.Action.contact,
+                    onTap: {
+                        viewStore.send(.showContact)
+                    },x
+                    destination: ContactsView.init(store:),
+                    label: {
+                        Label("Contact", systemImage: "person")
+                    }
+                )
+            }
+            .navigationTitle("Settings")
+            .frame(maxHeight: .infinity)
         }
     }
 }
 
-
-#Preview {
-    AppView(
-        store: Store(initialState: AppFeature.State()) {
+struct AppViewPreviewProvider: PreviewProvider {
+    static var previews: some View {
+        AppView(store: .init(initialState: .init()) {
             AppFeature()
-        }
-    )
+                ._printChanges()
+        })
+    }
 }
